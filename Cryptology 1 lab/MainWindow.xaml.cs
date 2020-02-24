@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 using System.Security.Cryptography;
 namespace Cryptology_1_lab
@@ -14,7 +14,8 @@ namespace Cryptology_1_lab
         string filename = "";
         string alfabet = "";
         int key = 0;
-
+        public int To = 0;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -126,36 +127,38 @@ namespace Cryptology_1_lab
             To_TextBox.Text = "26";
             alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             From_TextBox.Text = "1";
-
-
+            To = 26;
 
         }
         private void ukr_btn_Click(object sender, RoutedEventArgs e)
         {
             alfabet = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ";
-           
+            
             Language_Box.Text = "Ukrainian";
             To_TextBox.Text = "33";
             From_TextBox.Text = "1";
-        }
-
-        private void TextBox_TextChanged_1(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
+            To = 33;
         }
 
        
 
         private void TextBox_TextChanged_2(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            
             key = Int32.Parse(Key_Box.Text);
-            var valid = new Uri(@"images/valid.png", UriKind.Relative);
-            var not_valid = new Uri(@"images/notvalid.png", UriKind.Relative);
-            //if ((key  >= 1) && (key < Int32.Parse(To_TextBox.Text)))
-            //{ validation_img.Source = new BitmapImage(valid); }
-            //else
-            //{ validation_img.Source = new BitmapImage(not_valid); }
+            if ((key  >= 1) && (key < int.Parse(To_TextBox.Text)))
+            { Validation_Label.Content = "Valid";
+                Validation_Label.Background = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                Validation_Label.Content = "Not Valid";
+                Validation_Label.Background = new SolidColorBrush(Colors.Red);
+            }
+        }
+
+        private void TextBox_TextChanged_1(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
         }
     }
 }  

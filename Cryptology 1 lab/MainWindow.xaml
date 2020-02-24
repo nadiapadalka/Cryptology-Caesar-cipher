@@ -48,7 +48,7 @@
             <TextBox x:Name="To_TextBox" HorizontalAlignment="Center" Margin="0,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" Height="35" TextChanged="TextBox_TextChanged_2" AutomationProperties.Name="To_TextBox"/>
             <TextBox x:Name="From_TextBox" HorizontalAlignment="Left" Margin="287,127,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" Height="34" TextChanged="TextBox_TextChanged_2" AutomationProperties.Name="From_TextBox"/>
             <Label Content="Validation" HorizontalAlignment="Left" Margin="524,84,0,0" VerticalAlignment="Top" Foreground="#FF91DABF" Background="#FF8E6A6A" FontWeight="Bold"/>
-            <Image x:Name="validation_img" HorizontalAlignment="Left" Height="36" Margin="530,127,0,0" VerticalAlignment="Top" Width="48"/>
+            <Label x:Name="Validation_Label" Content="" HorizontalAlignment="Left" Margin="527,128,0,0" VerticalAlignment="Top" Foreground="#FF3EA27D" Background="#FFE4EDE5" FontWeight="Bold" Height="20" Width="67"/>
         </Grid>
 
     </Grid>
