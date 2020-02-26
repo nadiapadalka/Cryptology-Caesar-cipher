@@ -3,8 +3,10 @@ using System.IO;
 using System.Windows;
 using Microsoft.Win32;
 using System.Windows.Media;
-
+using System.Drawing.Printing;
 using System.Security.Cryptography;
+using System.Windows.Controls;
+using System.Windows.Documents;
 namespace Cryptology_1_lab
 {
     
@@ -20,9 +22,23 @@ namespace Cryptology_1_lab
         {
             InitializeComponent();
         }
+        
         private void PrintButton_Click(object sender, EventArgs e)
         {
-           //this should be implemented 
+            PrintDialog printDialog = new PrintDialog();
+            if ((bool)printDialog.ShowDialog().GetValueOrDefault())
+            {
+                FlowDocument flowDocument = new FlowDocument();
+                foreach (string line in textbox.Text.Split('\n'))
+                {
+                    Paragraph myParagraph = new Paragraph();
+                    myParagraph.Margin = new Thickness(0);
+                    myParagraph.Inlines.Add(new Run(line));
+                    flowDocument.Blocks.Add(myParagraph);
+                }
+                DocumentPaginator paginator = ((IDocumentPaginatorSource)flowDocument).DocumentPaginator;
+                printDialog.PrintDocument(paginator, this.textbox.Text);
+            }
         }
         
         private void OpenFile_Click(object sender, RoutedEventArgs e)
@@ -49,7 +65,8 @@ namespace Cryptology_1_lab
             if (saveFileDialog.ShowDialog() == true)
                 File.WriteAllText(saveFileDialog.FileName, textbox.Text);
             getfilename( saveFileDialog.FileName);
-            textbox.Text = filename;
+            // textbox.Text = filename;
+            MessageBox.Show("File saved there :" + filename);
         }
         private void CreateFile_Click(object sender, RoutedEventArgs e)
         {
@@ -66,7 +83,7 @@ namespace Cryptology_1_lab
 
         private void Close_btn(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
         public class CaesarCipher
         {
@@ -108,7 +125,6 @@ namespace Cryptology_1_lab
         }
         private void Decrypt_Click(object sender, RoutedEventArgs e)
         {
-
             var cipher = new CaesarCipher();
 
             textbox.Text = cipher.Decrypt(Encrypted_text.Text, key,alfabet);
@@ -117,9 +133,20 @@ namespace Cryptology_1_lab
 
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
-           // MessageBox.Show(alfabet + " " + textbox.Text);
+            key = Int32.Parse(Key_Box.Text);
+
             var cipher = new CaesarCipher();
-            Encrypted_text.Text =  cipher.Encrypt(textbox.Text, key,alfabet);
+            Encrypted_text.Text =  cipher.Encrypt(textbox.Text, key, alfabet);
+            if ((key >= 1) && (key < int.Parse(To_TextBox.Text)))
+            {
+                Validation_Label.Content = "Valid";
+                Validation_Label.Background = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                Validation_Label.Content = "Not Valid";
+                Validation_Label.Background = new SolidColorBrush(Colors.Red);
+            }
         }
         private void eng_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -144,16 +171,7 @@ namespace Cryptology_1_lab
 
         private void TextBox_TextChanged_2(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            key = Int32.Parse(Key_Box.Text);
-            if ((key  >= 1) && (key < int.Parse(To_TextBox.Text)))
-            { Validation_Label.Content = "Valid";
-                Validation_Label.Background = new SolidColorBrush(Colors.Green);
-            }
-            else
-            {
-                Validation_Label.Content = "Not Valid";
-                Validation_Label.Background = new SolidColorBrush(Colors.Red);
-            }
+            
         }
 
         private void TextBox_TextChanged_1(object sender, System.Windows.Controls.TextChangedEventArgs e)
